@@ -1,4 +1,4 @@
-function AudioPlay() {
+function AudioPlayer() {
   return (
     <div>
       <h2>Now Playing</h2>
@@ -6,4 +6,4 @@ function AudioPlay() {
   );
 }
 
-export default SearchForm;
+export default AudioPlayer;

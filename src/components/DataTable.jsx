@@ -6,4 +6,4 @@ function DataTable() {
   );
 }
 
-export default SearchForm;
+export default DataTable;

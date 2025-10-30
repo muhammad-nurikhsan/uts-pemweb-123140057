@@ -6,4 +6,4 @@ function PlaylistBuilder() {
   );
 }
 
-export default SearchForm;
+export default PlaylistBuilder;
