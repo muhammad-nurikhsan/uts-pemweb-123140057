@@ -10,26 +10,26 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [currentTrack, setCurrentTrack] = useState(null);
 
-  // Function untuk handle search dari SearchForm
   const handleSearch = async (keyword, mediaType) => {
     setLoading(true);
     setError('');
-    
+
     try {
-      // Fetch data dari iTunes API
       const response = await fetch(
-        `https://itunes.apple.com/search?term=${encodeURIComponent(keyword)}&media=${mediaType}&limit=25`
+        `https://itunes.apple.com/search?term=${encodeURIComponent(
+          keyword
+        )}&media=${mediaType}&limit=25`
       );
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
-      
+
       const data = await response.json();
       setSearchResults(data.results);
-      
-      // Jika tidak ada hasil
+
       if (data.results.length === 0) {
         setError('No results found. Try a different search term.');
       }
@@ -41,23 +41,23 @@ function App() {
     }
   };
 
+  const handlePlayTrack = (track) => {
+    setCurrentTrack(track);
+  };
+
   return (
     <div className="App">
       <Header />
       <SearchForm onSearch={handleSearch} />
-      
-      {/* Loading State */}
+
       {loading && <p className="loading">Loading...</p>}
-      
-      {/* Error State */}
       {error && <p className="error">{error}</p>}
-      
-      {/* Results */}
+
       {searchResults.length > 0 && (
-        <DataTable data={searchResults} />
+        <DataTable data={searchResults} onPlayTrack={handlePlayTrack} />
       )}
-      
-      <AudioPlayer />
+
+      <AudioPlayer currentTrack={currentTrack} />
       <PlaylistBuilder />
     </div>
   );

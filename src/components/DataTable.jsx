@@ -1,8 +1,8 @@
-function DataTable({ data }) {
+function DataTable({ data, onPlayTrack }) {
   return (
     <div className="data-table">
-      <h2>Search Results ({data.length} items)</h2>
-      
+      <h2>Search Results ({data.length})</h2>
+
       <table>
         <thead>
           <tr>
@@ -12,14 +12,15 @@ function DataTable({ data }) {
             <th>Album</th>
             <th>Price</th>
             <th>Release Date</th>
+            <th>Preview</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item) => (
             <tr key={item.trackId}>
               <td>
-                <img 
-                  src={item.artworkUrl100} 
+                <img
+                  src={item.artworkUrl100}
                   alt={item.trackName}
                   width="60"
                   height="60"
@@ -29,16 +30,24 @@ function DataTable({ data }) {
               <td>{item.artistName || 'N/A'}</td>
               <td>{item.collectionName || 'N/A'}</td>
               <td>
-                {item.trackPrice 
-                  ? `$${item.trackPrice}` 
-                  : 'N/A'
-                }
+                {item.trackPrice ? `$${item.trackPrice}` : 'N/A'}
               </td>
               <td>
-                {item.releaseDate 
-                  ? new Date(item.releaseDate).toLocaleDateString() 
-                  : 'N/A'
-                }
+                {item.releaseDate
+                  ? new Date(item.releaseDate).toLocaleDateString()
+                  : 'N/A'}
+              </td>
+              <td>
+                {item.previewUrl ? (
+                  <button
+                    onClick={() => onPlayTrack(item)}
+                    className="preview-btn"
+                  >
+                    Play
+                  </button>
+                ) : (
+                  <span style={{ color: '#666' }}>N/A</span>
+                )}
               </td>
             </tr>
           ))}
