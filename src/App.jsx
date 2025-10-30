@@ -7,120 +7,100 @@ import PlaylistBuilder from './components/PlaylistBuilder';
 import './App.css';
 
 function App() {
-  const [searchResults, setSearchResults] = useState([]);
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [currentTrack, setCurrentTrack] = useState(null);
   const [playlist, setPlaylist] = useState([]);
-  const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
-    const savedPlaylist = localStorage.getItem('musicPlaylist');
-    if (savedPlaylist) {
-      setPlaylist(JSON.parse(savedPlaylist));
+    const saved = localStorage.getItem('playlist');
+    if (saved) {
+      setPlaylist(JSON.parse(saved));
     }
   }, []);
 
-  const handleSearch = async (keyword, mediaType) => {
+  const searchMusic = async (keyword, type) => {
     setLoading(true);
     setError('');
 
     try {
-      const response = await fetch(
-        `https://itunes.apple.com/search?term=${encodeURIComponent(
-          keyword
-        )}&media=${mediaType}&limit=25`
+      const res = await fetch(
+        `https://itunes.apple.com/search?term=${keyword}&media=${type}&limit=25`
       );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-
-      const data = await response.json();
-      setSearchResults(data.results);
-
+      const data = await res.json();
+      
+      setResults(data.results);
       if (data.results.length === 0) {
-        setError('No results found. Try a different search term.');
+        setError('No results found');
       }
     } catch (err) {
-      setError('Error fetching data. Please try again.');
-      console.error('Error:', err);
-    } finally {
-      setLoading(false);
+      setError('Something went wrong');
     }
+    
+    setLoading(false);
   };
 
-  const handlePlayTrack = (track) => {
-    setCurrentTrack(track);
-  };
-
-  const handleAddToPlaylist = (track) => {
-    const isAlreadyInPlaylist = playlist.some(
-      (item) => item.trackId === track.trackId
-    );
-
-    if (isAlreadyInPlaylist) {
-      alert('This track is already in your playlist!');
+  const addToPlaylist = (track) => {
+    const exists = playlist.find(t => t.trackId === track.trackId);
+    if (exists) {
+      alert('Already in playlist');
       return;
     }
-
-    const newPlaylist = [...playlist, track];
-    setPlaylist(newPlaylist);
-    localStorage.setItem('musicPlaylist', JSON.stringify(newPlaylist));
+    
+    const updated = [...playlist, track];
+    setPlaylist(updated);
+    localStorage.setItem('playlist', JSON.stringify(updated));
   };
 
-  const handleRemoveFromPlaylist = (trackId) => {
-    const newPlaylist = playlist.filter((track) => track.trackId !== trackId);
-    setPlaylist(newPlaylist);
-    localStorage.setItem('musicPlaylist', JSON.stringify(newPlaylist));
+  const removeFromPlaylist = (id) => {
+    const updated = playlist.filter(t => t.trackId !== id);
+    setPlaylist(updated);
+    localStorage.setItem('playlist', JSON.stringify(updated));
   };
 
-  const handleSort = (sortType) => {
-    setSortBy(sortType);
-    let sortedResults = [...searchResults];
-
-    if (sortType === 'date-newest') {
-      sortedResults.sort(
-        (a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)
-      );
-    } else if (sortType === 'date-oldest') {
-      sortedResults.sort(
-        (a, b) => new Date(a.releaseDate) - new Date(b.releaseDate)
-      );
-    } else if (sortType === 'price-high') {
-      sortedResults.sort((a, b) => (b.trackPrice || 0) - (a.trackPrice || 0));
-    } else if (sortType === 'price-low') {
-      sortedResults.sort((a, b) => (a.trackPrice || 0) - (b.trackPrice || 0));
+  const sortResults = (type) => {
+    const sorted = [...results];
+    
+    if (type === 'date-new') {
+      sorted.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+    } else if (type === 'date-old') {
+      sorted.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+    } else if (type === 'price-high') {
+      sorted.sort((a, b) => (b.trackPrice || 0) - (a.trackPrice || 0));
+    } else if (type === 'price-low') {
+      sorted.sort((a, b) => (a.trackPrice || 0) - (b.trackPrice || 0));
     }
-
-    setSearchResults(sortedResults);
+    
+    setResults(sorted);
   };
 
   return (
-    <div className="App">
+    <div className="container">
       <Header />
-      <SearchForm onSearch={handleSearch} />
+      <SearchForm onSearch={searchMusic} />
 
-      {loading && <p className="loading">Loading...</p>}
-      {error && <p className="error">{error}</p>}
+      {loading && <p className="message">Searching...</p>}
+      {error && <p className="message error">{error}</p>}
 
-      {searchResults.length > 0 && (
+      {results.length > 0 && (
         <DataTable
-          data={searchResults}
-          onPlayTrack={handlePlayTrack}
-          onAddToPlaylist={handleAddToPlaylist}
-          onSort={handleSort}
-          currentSort={sortBy}
+          data={results}
+          onPlay={setCurrentTrack}
+          onAdd={addToPlaylist}
+          onSort={sortResults}
         />
       )}
 
-      <PlaylistBuilder
-        playlist={playlist}
-        onRemove={handleRemoveFromPlaylist}
-        onPlay={handlePlayTrack}
-      />
+      {playlist.length > 0 && (
+        <PlaylistBuilder
+          tracks={playlist}
+          onRemove={removeFromPlaylist}
+          onPlay={setCurrentTrack}
+        />
+      )}
 
-      <AudioPlayer currentTrack={currentTrack} />
+      {currentTrack && <AudioPlayer track={currentTrack} />}
     </div>
   );
 }

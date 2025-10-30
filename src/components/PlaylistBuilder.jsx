@@ -1,52 +1,23 @@
-function PlaylistBuilder({ playlist, onRemove, onPlay }) {
-  if (playlist.length === 0) {
-    return (
-      <div className="playlist-builder">
-        <h2>My Playlist</h2>
-        <p className="empty-playlist">
-          Your playlist is empty. Add some tracks from search results!
-        </p>
-      </div>
-    );
-  }
-
+function PlaylistBuilder({ tracks, onRemove, onPlay }) {
   return (
-    <div className="playlist-builder">
-      <div className="playlist-header">
-        <h2>My Playlist</h2>
-        <span className="track-count">{playlist.length} tracks</span>
-      </div>
-
-      <div className="playlist-items">
-        {playlist.map((track) => (
+    <div className="playlist">
+      <h2>My Playlist ({tracks.length})</h2>
+      <div className="playlist-list">
+        {tracks.map((track) => (
           <div key={track.trackId} className="playlist-item">
-            <img
-              src={track.artworkUrl100}
-              alt={track.trackName}
-              className="playlist-artwork"
-            />
-            
-            <div className="playlist-info">
-              <h4>{track.trackName}</h4>
-              <p>{track.artistName}</p>
+            <img src={track.artworkUrl100} alt="" />
+            <div className="track-info">
+              <div className="name">{track.trackName}</div>
+              <div className="artist">{track.artistName}</div>
             </div>
-
-            <div className="playlist-actions">
+            <div className="actions">
               {track.previewUrl && (
-                <button
-                  onClick={() => onPlay(track)}
-                  className="play-small-btn"
-                  title="Play"
-                >
-                  ▶
+                <button onClick={() => onPlay(track)} className="btn-small">
+                  Play
                 </button>
               )}
-              <button
-                onClick={() => onRemove(track.trackId)}
-                className="remove-btn"
-                title="Remove from playlist"
-              >
-                ×
+              <button onClick={() => onRemove(track.trackId)} className="btn-remove">
+                Remove
               </button>
             </div>
           </div>

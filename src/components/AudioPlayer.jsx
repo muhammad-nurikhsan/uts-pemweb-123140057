@@ -1,45 +1,29 @@
 import { useState, useRef } from 'react';
 
-function AudioPlayer({ currentTrack }) {
-  const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+function AudioPlayer({ track }) {
+  const audio = useRef(null);
+  const [playing, setPlaying] = useState(false);
 
-  const togglePlay = () => {
-    if (!currentTrack?.previewUrl) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
+  const toggle = () => {
+    if (playing) {
+      audio.current.pause();
     } else {
-      audioRef.current.play();
+      audio.current.play();
     }
-    setIsPlaying(!isPlaying);
+    setPlaying(!playing);
   };
 
-  if (!currentTrack) {
-    return null;
-  }
-
   return (
-    <div className="audio-player">
+    <div className="player">
+      <img src={track.artworkUrl100} alt="" />
       <div className="player-info">
-        <img src={currentTrack.artworkUrl100} alt={currentTrack.trackName} />
-        <div className="track-details">
-          <h3>{currentTrack.trackName}</h3>
-          <p>{currentTrack.artistName}</p>
-        </div>
+        <div className="track-name">{track.trackName}</div>
+        <div className="artist-name">{track.artistName}</div>
       </div>
-
-      <div className="player-controls">
-        <button onClick={togglePlay} className="play-btn">
-          {isPlaying ? '⏸️' : '▶️'}
-        </button>
-      </div>
-
-      <audio
-        ref={audioRef}
-        src={currentTrack.previewUrl}
-        onEnded={() => setIsPlaying(false)}
-      />
+      <button onClick={toggle} className="player-btn">
+        {playing ? 'Pause' : 'Play'}
+      </button>
+      <audio ref={audio} src={track.previewUrl} onEnded={() => setPlaying(false)} />
     </div>
   );
 }

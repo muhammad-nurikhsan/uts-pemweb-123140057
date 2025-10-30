@@ -1,8 +1,9 @@
 function Header() {
   return (
-    <header>
+    <div className="header">
       <h1>Music Explorer</h1>
-    </header>
+      <p>"Music is Therapy"</p>
+    </div>
   );
 }
 
