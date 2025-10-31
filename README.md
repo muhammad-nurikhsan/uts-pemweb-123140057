@@ -35,7 +35,7 @@ Music Explorer adalah aplikasi web untuk mencari dan menemukan musik dari iTunes
 ### Langkah-langkah
 ```bash
 # Clone repository
-git clone https://github.com/[username-anda]/uts-pemweb-123140057.git
+git clone https://github.com/muhammad-nurikhsan/uts-pemweb-123140057.git
 
 # Masuk ke folder project
 cd uts-pemweb-123140057
@@ -76,7 +76,7 @@ uts-pemweb-123140057/
 5. **Remove**: Klik tombol "Remove" di playlist untuk menghapus lagu
 
 ## Link Deployment
-🚀 **Live Demo**: [akan diisi setelah deploy]
+**Live Demo**: https://uts-pemrogramanaplikasiweb-12314057.vercel.app
 
 ## Screenshot
 
@@ -160,16 +160,6 @@ https://itunes.apple.com/search?term=coldplay&media=music&limit=25
 ## Known Issues
 - Preview audio hanya 30 detik (limitasi dari iTunes API)
 - Beberapa lagu tidak memiliki preview URL
-
-## Future Improvements
-- Tambah fitur pencarian advanced
-- Export playlist ke file
-- Share playlist dengan link
-- Dark/light theme toggle
-- Shuffle dan repeat mode
-
-## Lisensi
-Project ini dibuat untuk keperluan UTS Pemrograman Aplikasi Web.
 
 ## Kontak
 Contact Me:

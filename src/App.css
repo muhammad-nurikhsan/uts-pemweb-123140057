@@ -331,6 +331,38 @@ td img {
   background: #e89a30;
 }
 
+/* Mobile Fixes */
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  
+  .table-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix for Safari mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .container {
