@@ -93,48 +93,13 @@ uts-pemweb-123140057/
 ![Audio Player](screenshots/audio-player.png)
 
 ## Fitur yang Diimplementasikan
-
-### Form (CPMK 05.01)
-- Form dengan 5 jenis input berbeda
-- Validasi HTML5 dan JavaScript
-- Form submission dengan state management
-
-### Table (CPMK 05.01)
-- Tabel data dinamis dari API
-- Minimal 3 kolom informasi
-- Data formatting (tanggal dan harga)
-
-### CSS (CPMK 05.01)
-- Multiple selector types
-- Pseudo-classes untuk interaksi
-- Responsive design dengan media queries
-- Flexbox layout
-
-### HTML5 (CPMK 05.02)
-- Semantic HTML tags
-- DOCTYPE HTML5
-- Meta tags lengkap
-
-### Modern JavaScript (CPMK 05.02)
-- Arrow functions
-- Template literals
-- Destructuring
-- Spread operators
-- Array methods (map, filter, sort)
-- Async/await
-
-### React (CPMK 05.02)
-- Functional components
-- useState dan useEffect hooks
-- Props passing
-- Conditional rendering
-- Event handling
-
-### API Integration (CPMK 05.02)
-- Fetch data dari iTunes API
-- Loading state
-- Error handling
-- Data transformation
+1. Form
+2. Table 
+3. CSS
+4. HTML5 
+5. Modern JavaScript
+6. React 
+7. API Integration
 
 ## API yang Digunakan
 
@@ -157,7 +122,7 @@ https://itunes.apple.com/search?term=coldplay&media=music&limit=25
 - Safari
 - Edge
 
-## Known Issues
+## Notes
 - Preview audio hanya 30 detik (limitasi dari iTunes API)
 - Beberapa lagu tidak memiliki preview URL
 
